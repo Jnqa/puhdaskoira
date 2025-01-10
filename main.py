@@ -99,16 +99,46 @@ async def get_id(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
     chat_id = update.message.chat.id
     await update.message.reply_text(f"ID чата: {chat_id}\nВаш ID: {user_id}")
-    await update.message.delete()
+    try:
+        await message.delete()
+    except Exception as e:
+        print(f"Ошибка удаления или бана: {e}")
+
+async def woof_message(update: Update, context: CallbackContext):
+    reply_message = await message.reply_text("🐕 woof!")
+    await asyncio.sleep(3)
+    try:
+        await message.delete()
+        await reply_message.delete()
+    except Exception as e:
+        print(f"Ошибка удаления или бана: {e}")
 
 async def start_message(update: Update, context: CallbackContext):
     await update.message.reply_text("Готов заняться уборкой!")
+    await update.message.delete()
+
+async def help_message(update: Update, context: CallbackContext):
+    help_text = (
+        "Доступные команды:\n"
+        "/logs_off - отключить логи (defaut)\n"
+        "/logs_ban - логи только при бане\n"
+        "/logs_all - логи всех сообщений\n"
+        "/getid - получить id чата\n"
+        "/woof - проверить связь с ботом"
+    )
+    try:
+        await message.delete()
+    except Exception as e:
+        print(f"Ошибка удаления или бана: {e}")
+    await update.message.reply_text(help_text)
 
 application.add_handler(CommandHandler("logs_off", set_logs_off))
 application.add_handler(CommandHandler("logs_ban", set_logs_ban))
 application.add_handler(CommandHandler("logs_all", set_logs_all))
 application.add_handler(CommandHandler("start", start_message))
 application.add_handler(CommandHandler("getid", get_id))
+application.add_handler(CommandHandler("woof", woof_message))
+application.add_handler(CommandHandler("help", help_message))
 application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, delete_and_ban))
 
 if __name__ == "__main__":
