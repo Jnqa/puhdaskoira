@@ -63,7 +63,7 @@ To deploy the bot, you need to have Python and Docker installed. Follow these st
     ```
 2. Run the bot in a Docker container:
     ```bash
-    docker run -d --env-file .env jnqa/puhdaskoira:v1
+    docker run -d --env-file .env jnqa/puhdaskoira:0.0.3
     ```
 
 ---

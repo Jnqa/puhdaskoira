@@ -100,15 +100,15 @@ async def get_id(update: Update, context: CallbackContext):
     chat_id = update.message.chat.id
     await update.message.reply_text(f"ID чата: {chat_id}\nВаш ID: {user_id}")
     try:
-        await message.delete()
+        await update.message.delete()
     except Exception as e:
         print(f"Ошибка удаления или бана: {e}")
 
 async def woof_message(update: Update, context: CallbackContext):
-    reply_message = await message.reply_text("🐕 woof!")
+    reply_message = await update.message.reply_text("🐕 woof!")
     await asyncio.sleep(3)
     try:
-        await message.delete()
+        await update.message.delete()
         await reply_message.delete()
     except Exception as e:
         print(f"Ошибка удаления или бана: {e}")
@@ -127,7 +127,7 @@ async def help_message(update: Update, context: CallbackContext):
         "/woof - проверить связь с ботом"
     )
     try:
-        await message.delete()
+        await update.message.delete()
     except Exception as e:
         print(f"Ошибка удаления или бана: {e}")
     await update.message.reply_text(help_text)
